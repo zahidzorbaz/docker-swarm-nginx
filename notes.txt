@@ -1,0 +1,2 @@
+Docker swarm ile ngix' örnekleri.
+1 manager 10 worker ile test edildi. 
