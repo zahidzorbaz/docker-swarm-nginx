@@ -1,0 +1,43 @@
+#udpappstack
+version: '3.3'
+# top level config entries:  
+configs:
+  nginx.conf:
+    external: true
+services:
+  udpbalance:
+    image: zahidzorbaz/udpbalance:latest
+    networks:
+     - net
+    logging:
+      driver: json-file
+    deploy:
+      mode: replicated
+      replicas: 8
+      placement:
+        constraints: 
+          - node.role != manager
+      # resources:
+      #   reservations:
+      #     cpus: '1'
+      #     memory: 256M
+      #   limits:
+      #     cpus: '1'
+      #     memory: 1024M
+  nginx:
+    image: nginx
+    configs:
+      - source: nginx.conf
+        target: /etc/nginx/nginx.conf
+    ports:
+      - 514:514/udp
+    networks:
+     - net
+    deploy:
+      placement:
+        constraints: 
+          - node.role == manager
+networks:
+  net:
+    driver: overlay
+

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  udpbalance-1:
+    image: 562390958779.dkr.ecr.eu-west-2.amazonaws.com/udpbalance:latest
+  udpbalance-2:
+    image: 562390958779.dkr.ecr.eu-west-2.amazonaws.com/udpbalance:latest
+  nginx:
+    image: nginx
+    volumes:
+      - "./nginx.conf:/etc/nginx/nginx.conf"
+    ports:
+      - 514:514/udp
